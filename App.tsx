@@ -13,7 +13,9 @@ import {
   Pressable,
   SafeAreaView,
   StatusBar,
+  StyleSheet,
   Text,
+  View,
   useColorScheme
 } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -23,28 +25,16 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import EventModule from './src/EventModule';
 import PromiseModule from './src/PromiseModule';
+import SwiftModule from './src/SwiftModule';
 
 
 function App(): JSX.Element {
-  let [showEventButton, setShowEventButton] = useState(true);
-
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-
+    <SafeAreaView style={styles.container}>
       <PromiseButton />
-      {showEventButton ? <EventButton /> : <></>}
+      <EventButton />
+      <SwiftModuleButton />
       <Toast />
-      <Button title='Unmount event button' onPress={() => { setShowEventButton(false) }} />
     </SafeAreaView>
   );
 }
@@ -70,13 +60,15 @@ const PromiseButton = () => {
   return (
     <Pressable
       onPress={onPress}
-      style={{ margin: 8, backgroundColor: 'green' }}>
-      <Text style={{ padding: 8, color: 'white' }}>Premi per lanciare promise</Text>
+      style={styles.buttonStyle}>
+      <Text style={styles.textStyle}>Lancia promise</Text>
     </Pressable>
   );
 };
 
 const EventButton = () => {
+  let [showEventButton, setShowEventButton] = useState(true);
+
   useEffect(() => {
     console.log('In useEffect');
     console.log(NativeModules.EventModule);
@@ -105,12 +97,70 @@ const EventButton = () => {
   };
 
   return (
+    <View style={styles.hbox}>
+      <Pressable
+        onPress={() => { setShowEventButton(!showEventButton) }}
+        style={{...styles.buttonStyle, flex: 0.5}}>
+        <Text style={styles.textStyle}>{showEventButton ? "Rimuovi componente" : "Aggiungi componente"}</Text>
+      </Pressable>
+      {showEventButton ?
+        <Pressable
+          onPress={onPress}
+          style={{...styles.buttonStyle, flex: 0.5}}>
+          <Text style={styles.textStyle}>Lancia evento</Text>
+        </Pressable> : <></>
+      }
+    </View>
+  );
+}
+
+const SwiftModuleButton = () => {
+  const onPress = async () => {
+    try {
+      const eventId = await SwiftModule.swiftNativeMethod(
+        'Test',
+      );
+      Toast.show({
+        type: 'success',
+        text1: `Created a new event with id ${eventId}`,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
     <Pressable
       onPress={onPress}
-      style={{ margin: 8, backgroundColor: 'green' }}>
-      <Text style={{ padding: 8, color: 'white' }}>Premi per lanciare evento</Text>
+      style={styles.buttonStyle}>
+      <Text style={styles.textStyle}>Lancia promise Swift</Text>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.lighter,
+    flex: 1,
+  },
+  buttonStyle: {
+    paddingVertical: 24,
+    marginHorizontal: 8,
+    marginVertical: 24,
+    borderWidth: 2,
+    borderColor: '#20232a',
+    backgroundColor: '#26a33f',
+    borderRadius: 100,
+  },
+  textStyle: {
+    textAlign: 'center',
+    color: 'white'
+  },
+  hbox: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    width: '100%'
+  }
+});
 
 export default App;
