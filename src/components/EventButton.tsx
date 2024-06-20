@@ -39,13 +39,25 @@ export const EventButton = () => {
     <View style={styles.hbox}>
       <Pressable
         onPress={() => { setShowEventButton(!showEventButton); }}
-        style={{ ...styles.buttonStyle, flex: 0.5 }}>
+        style={({ pressed }) => [
+          {
+            ...styles.buttonStyle,
+            backgroundColor: pressed ? '#388E3C' : styles.buttonStyle.backgroundColor,
+            flex: 0.5
+          },
+        ]}>
         <Text style={styles.textStyle}>{showEventButton ? "REMOVE COMPONENT" : "ADD COMPONENT"}</Text>
       </Pressable>
       {showEventButton ?
         <Pressable
           onPress={onPress}
-          style={{ ...styles.buttonStyle, flex: 0.5 }}>
+          style={({ pressed }) => [
+            {
+              ...styles.buttonStyle,
+              backgroundColor: pressed ? '#388E3C' : styles.buttonStyle.backgroundColor,
+              flex: 0.5
+            },
+          ]}>
           <Text style={styles.textStyle}>THROW EVENT</Text>
         </Pressable> : <></>}
     </View>

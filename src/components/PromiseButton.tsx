@@ -22,7 +22,12 @@ export const PromiseButton = () => {
   return (
     <Pressable
       onPress={onPress}
-      style={styles.buttonStyle}>
+      style={({ pressed }) => [
+        {
+          ...styles.buttonStyle,
+          backgroundColor: pressed ? '#388E3C' : styles.buttonStyle.backgroundColor,
+        },
+      ]}>
       <Text style={styles.textStyle}>THROW PROMISE</Text>
     </Pressable>
   );
