@@ -3,7 +3,7 @@ import {NativeModules} from 'react-native'
 const { PromiseModule } = NativeModules;
 
 interface PromiseInterface {
-    createPromiseEvent(name: string, location: string): void;
+    startPromise(name: string): void;
 }
 
 export default PromiseModule as PromiseInterface;

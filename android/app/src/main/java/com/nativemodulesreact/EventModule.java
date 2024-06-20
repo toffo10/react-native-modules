@@ -21,29 +21,23 @@ public class EventModule extends ReactContextBaseJavaModule {
         super(reactContext);
     }
 
-    private void sendEvent(ReactContext reactContext,
-                           String eventName,
-                           @Nullable WritableMap params) {
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
-    }
-
     @ReactMethod
-    public void executeEvent(String eventName) {
+    public void startEvent() {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                doSendEvent(eventName);
+                sendEvent();
             }
-        }, 3000);
+        }, 1500);
     }
 
-    private void doSendEvent(String eventName) {
+    private void sendEvent() {
         WritableMap params = Arguments.createMap();
-        params.putString("eventProperty", "someValue");
+        params.putString("eventMessage", "Event from Android");
 
-        sendEvent(getReactApplicationContext(), "EventReminder", params);
+        getReactApplicationContext()
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("CustomEvent", params);
     }
 
     @NonNull
@@ -55,6 +49,7 @@ public class EventModule extends ReactContextBaseJavaModule {
 
     // Metodo richiamato quando qualche listener si connette
     private int listenerCount = 0;
+
     @ReactMethod
     public void addListener(String eventName) {
         Log.d("EventModule", "addedListener");

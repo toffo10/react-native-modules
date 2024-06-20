@@ -2,7 +2,7 @@
 //  RCTEventModule.m
 //  NativeModulesReact
 //
-//  Created by MacBook-Enrico-Toffolatti on 12/06/24.
+//  Created by Enrico Toffolatti on 12/06/24.
 //
 
 #import "RCTEventModule.h"
@@ -37,7 +37,7 @@ RCT_EXPORT_METHOD(executeEvent:(NSString *)eventName)
 {
   RCTLogInfo(@"Called executeEvent");
   if (hasListeners) {// Only send events if anyone is listening
-    [self sendEventWithName:@"EventReminder" body:@{@"eventProperty": eventName}];
+    [self sendEventWithName:@"CustomEvent" body:@{@"eventMessage": @"Event from iOS"}];
   }
 }
 

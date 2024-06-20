@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native'
 const { EventModule } = NativeModules;
 
 interface EventInterface {
-    executeEvent(name: string): void;
+    startEvent(): void;
 }
 
 export default EventModule as EventInterface;
