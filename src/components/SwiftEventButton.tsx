@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { NativeEventEmitter, NativeModules, Pressable, Text } from 'react-native';
 import Toast from 'react-native-toast-message';
-import SwiftModule from '../nativeModules/SwiftModule';
+import SwiftModule, { SwiftEventObject } from '../nativeModules/SwiftModule';
 import { styles } from '../../App';
 
 export const SwiftEventButton = () => {
 
   useEffect(() => {
     const eventEmitter = new NativeEventEmitter(NativeModules.SwiftModule);
-    let eventListener = eventEmitter.addListener('SwiftEvent', event => {
+    let eventListener = eventEmitter.addListener('SwiftEvent', (event: SwiftEventObject) => {
       Toast.show({
         type: 'success',
         text1: `Event received!`,

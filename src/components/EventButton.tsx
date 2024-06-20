@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import EventModule from '../nativeModules/EventModule';
+import EventModule, { EventObject } from '../nativeModules/EventModule';
 import { styles } from '../../App';
 
 export const EventButton = () => {
@@ -13,7 +13,7 @@ export const EventButton = () => {
 
   useEffect(() => {
     const eventEmitter = new NativeEventEmitter(NativeModules.EventModule);
-    let eventListener = eventEmitter.addListener('CustomEvent', event => {
+    let eventListener = eventEmitter.addListener('CustomEvent', (event: EventObject) => {
       Toast.show({
         type: 'success',
         text1: `Event received!`,
