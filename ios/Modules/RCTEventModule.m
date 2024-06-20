@@ -16,7 +16,7 @@
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"EventReminder"];
+    return @[@"CustomEvent"];
 }
 
 // Will be called when this module's first listener is added.
@@ -33,9 +33,9 @@ RCT_EXPORT_MODULE();
   // Remove upstream listeners, stop unnecessary background tasks
 }
 
-RCT_EXPORT_METHOD(executeEvent:(NSString *)eventName)
+RCT_EXPORT_METHOD(startEvent)
 {
-  RCTLogInfo(@"Called executeEvent");
+  RCTLogInfo(@"Called startEvent");
   if (hasListeners) {// Only send events if anyone is listening
     [self sendEventWithName:@"CustomEvent" body:@{@"eventMessage": @"Event from iOS"}];
   }

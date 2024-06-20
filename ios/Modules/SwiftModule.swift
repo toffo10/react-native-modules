@@ -17,8 +17,8 @@ class SwiftModule: RCTEventEmitter {
     resolve("Returned message from Swift");
   }
   
-  @objc(swiftEventMethod:)
-  func swiftEventMethod(_ name: String){
+  @objc(swiftEventMethod)
+  func swiftEventMethod(){
     sendEvent(withName: "SwiftEvent", body: ["eventMessage": "Event from Swift"])
   }
 

@@ -13,6 +13,6 @@
 
 RCT_EXTERN_METHOD(swiftPromiseMethod:(NSString *)name resolver:(RCTPromiseResolveBlock *)resolve rejecter:(RCTPromiseRejectBlock *)rejecter)
 
-RCT_EXTERN_METHOD(swiftEventMethod:(NSString *)name)
+RCT_EXTERN_METHOD(swiftEventMethod)
 
 @end
